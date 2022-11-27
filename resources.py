@@ -35,4 +35,8 @@ class Wallet(Resource):
 class Webhook(Resource):
     def post(self):
         # webhook to handle the payment completed
+        address = "0xcD4bde67fe7C6Eb601d03a35Ea8a55eB2b136965"
+        # in kobo
+        amount = 900
+        
         return None

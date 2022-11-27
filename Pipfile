@@ -12,6 +12,7 @@ flask-migrate = "*"
 marshmallow = "*"
 paystackapi = "*"
 web3 = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
