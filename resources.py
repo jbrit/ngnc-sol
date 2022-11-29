@@ -6,6 +6,7 @@ from utils import Resource
 import models
 from flask import abort
 from web3 import Web3
+from blockchain.handler import mint_tokens
 
 
 def allow_only_example(func):
@@ -37,6 +38,6 @@ class Webhook(Resource):
         # webhook to handle the payment completed
         address = "0xcD4bde67fe7C6Eb601d03a35Ea8a55eB2b136965"
         # in kobo
-        amount = 900
-        
-        return None
+        amount = 5000
+        mint_tokens(address, amount)
+        return {"success": True}
