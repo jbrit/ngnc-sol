@@ -35,12 +35,16 @@ class Wallet(Resource):
 
 class Webhook(Resource):
     def post(self):
-        data = request.get_json()
-        print(data)
-        raise NotImplementedError
-        # webhook to handle the payment completed
-        address = "0xcD4bde67fe7C6Eb601d03a35Ea8a55eB2b136965"
-        # in kobo
-        amount = 5000
-        mint_tokens(address, amount)
+        body = request.get_json()
+        if body["event"] == "charge.success":
+            amount = body["data"]["amount"]
+            referrer: str = body['data']['metadata']['referrer']
+            slug = referrer.split("/")[-1]
+
+            # get wallet from slug
+            wallet = models.Wallet.query.filter_by(payment_page_slug=slug).first()
+
+            if wallet is not None:
+                # mint tokens
+                mint_tokens(wallet.address, amount)
         return {"success": True}

@@ -15,6 +15,7 @@ web3 = "*"
 python-dotenv = "*"
 sentry-sdk = {extras = ["flask"], version = "*"}
 gunicorn = "*"
+psycopg2-binary = "*"
 
 [dev-packages]
 
