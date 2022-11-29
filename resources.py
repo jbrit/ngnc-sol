@@ -4,7 +4,7 @@ from payments import generate_payment_slug
 from flask_apispec import marshal_with
 from utils import Resource
 import models
-from flask import abort
+from flask import abort, request
 from web3 import Web3
 from blockchain.handler import mint_tokens
 
@@ -35,6 +35,9 @@ class Wallet(Resource):
 
 class Webhook(Resource):
     def post(self):
+        data = request.get_json()
+        print(data)
+        raise NotImplementedError
         # webhook to handle the payment completed
         address = "0xcD4bde67fe7C6Eb601d03a35Ea8a55eB2b136965"
         # in kobo

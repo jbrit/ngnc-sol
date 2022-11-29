@@ -13,6 +13,7 @@ marshmallow = "*"
 paystackapi = "*"
 web3 = "*"
 python-dotenv = "*"
+sentry-sdk = {extras = ["flask"], version = "*"}
 
 [dev-packages]
 
