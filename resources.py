@@ -4,7 +4,7 @@ from payments import generate_payment_slug
 from flask_apispec import marshal_with
 from utils import Resource
 import models
-from flask import abort, request
+from flask import abort, request, redirect
 from web3 import Web3
 from blockchain.handler import mint_tokens
 
@@ -32,6 +32,10 @@ class Wallet(Resource):
             models.db.session.commit()
         return wallet
 
+
+class RedirectSwagger(Resource):
+    def get(self):
+        return redirect('/swagger-ui')
 
 class Webhook(Resource):
     def post(self):
