@@ -16,6 +16,7 @@ python-dotenv = "*"
 sentry-sdk = {extras = ["flask"], version = "*"}
 gunicorn = "*"
 psycopg2-binary = "*"
+solana = "*"
 
 [dev-packages]
 
