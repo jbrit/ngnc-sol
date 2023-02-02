@@ -6,6 +6,7 @@ from flask_migrate import Migrate
 from webargs.flaskparser import parser
 from config import app_config
 from views import api_blueprint, docs
+from commands import command_blueprint
 from models import db
 
 # This error handler is necessary for usage with Flask-RESTful
@@ -33,3 +34,12 @@ def create_app():
         # We recommend adjusting this value in production.
         traces_sample_rate=1.0
     )
+
+    app = Flask(__name__)
+    app.config.update(app_config)
+    app.register_blueprint(api_blueprint)
+    app.register_blueprint(command_blueprint)
+    db.init_app(app)
+    migrate.init_app(app, db)
+    docs.init_app(app)
+    return app
