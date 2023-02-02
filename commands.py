@@ -3,14 +3,16 @@ import click
 import json
 import requests
 
+from blockchain.handler import create_mint
+
 from flask import Blueprint
+
 from solders.keypair import Keypair
 
 from solders.rpc.requests import GetBalance, RequestAirdrop
 from solders.rpc.config import RpcContextConfig, RpcRequestAirdropConfig
 from solders.pubkey import Pubkey
 from solders.commitment_config import CommitmentLevel
-
 
 
 make_request = lambda body: requests.post("https://api.devnet.solana.com/", json=json.loads(body)).json()
@@ -33,7 +35,7 @@ def generate_keypair():
     # -> base58.b58decode(encoded_str)
 
 
-@command_blueprint.cli.command('airdop')
+@command_blueprint.cli.command('airdrop')
 @click.argument('pubkey')
 def request_airdrop(pubkey: str):
     config = RpcRequestAirdropConfig(commitment=CommitmentLevel.Confirmed)
@@ -53,3 +55,8 @@ def get_balance(pubkey: str):
     value = response["result"]["value"]
     print(f"{pubkey} has a balance of {value/1e9} SOL")
     return value
+
+
+@command_blueprint.cli.command('create_token')
+def create_token():
+    create_mint()
