@@ -4,7 +4,7 @@ from web3 import Web3
 from web3.gas_strategies.rpc import rpc_gas_price_strategy
 from blockchain.abis import NGNC_ABI
 
-private_key = os.environ["POLYGON_PRIVATE_KEY"]
+private_key = os.environ["SOLANA_PRIVATE_KEY"]
 
 
 w3 = Web3(Web3.HTTPProvider("https://matic-mumbai.chainstacklabs.com"))
