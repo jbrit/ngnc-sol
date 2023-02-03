@@ -16,7 +16,6 @@ sentry-sdk = {extras = ["flask"], version = "*"}
 gunicorn = "*"
 psycopg2-binary = "*"
 solana = "*"
-base58 = "*"
 
 [dev-packages]
 
