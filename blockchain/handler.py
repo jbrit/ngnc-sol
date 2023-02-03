@@ -7,8 +7,9 @@ from spl.token.client import Token
 
 from solana.rpc.commitment import Confirmed
 from solana.rpc.api import Client
-from solana.publickey import PublicKey
-from solana.keypair import Keypair
+from solders.pubkey import Pubkey
+from solders.keypair import Keypair
+
 
 
 private_key = os.environ["SOLANA_PRIVATE_KEY"]
@@ -16,7 +17,7 @@ private_key = os.environ["SOLANA_PRIVATE_KEY"]
 client = Client(endpoint="https://api.devnet.solana.com", commitment=Confirmed)
 owner = Keypair.from_seed(base58.b58decode(private_key))
 
-def get_or_create_ata(token: Token, address: PublicKey, mint: PublicKey):
+def get_or_create_ata(token: Token, address: Pubkey, mint: Pubkey):
     # TODO: check if ata initialized then create instead
     try:
         ata = token.create_associated_token_account(owner=address)
@@ -28,18 +29,18 @@ def get_or_create_ata(token: Token, address: PublicKey, mint: PublicKey):
 def mint_tokens(address: str, amount: int):
     token = Token(
         conn=client,
-        pubkey=PublicKey("BBPQBEAL4uMvyL99Ms6r2vqaVst4RtgZF8Xgnut2x1Lh"),
+        pubkey=Pubkey.from_string("BBPQBEAL4uMvyL99Ms6r2vqaVst4RtgZF8Xgnut2x1Lh"),
         payer=owner,
         program_id=TOKEN_PROGRAM_ID,
     )
-    ata = get_or_create_ata(token, PublicKey(address), PublicKey("BBPQBEAL4uMvyL99Ms6r2vqaVst4RtgZF8Xgnut2x1Lh"))
+    ata = get_or_create_ata(token, Pubkey.from_string(address), Pubkey.from_string("BBPQBEAL4uMvyL99Ms6r2vqaVst4RtgZF8Xgnut2x1Lh"))
     tx = token.mint_to_checked(
         dest=ata,
         mint_authority=owner,
         amount=amount,
         decimals=2
     )
-    signature = tx["result"]
+    signature = tx.value
     return signature
 
 
@@ -48,7 +49,7 @@ def create_mint():
     token = Token.create_mint(
         conn=client,
         payer=owner,
-        mint_authority=owner.public_key,
+        mint_authority=owner.pubkey(),
         decimals=2,
         program_id=TOKEN_PROGRAM_ID,
     )

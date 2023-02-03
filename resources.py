@@ -6,7 +6,7 @@ from utils import Resource
 import models
 from flask import abort, request, redirect
 from blockchain.handler import mint_tokens
-from solana.publickey import PublicKey
+from solders.pubkey import Pubkey
 
 def allow_only_example(func):
     @wraps(func)
@@ -19,7 +19,7 @@ class Wallet(Resource):
     @marshal_with(WalletSchema())
     def get(self, address):
         try:
-            if not PublicKey._is_on_curve(bytes(PublicKey(address))):
+            if not Pubkey.is_on_curve(bytes(Pubkey.from_string(address))):
                 abort(400, 'address is noy user owned')
         except:
                 abort(400, 'invalid solana address')
