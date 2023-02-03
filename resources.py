@@ -5,9 +5,8 @@ from flask_apispec import marshal_with
 from utils import Resource
 import models
 from flask import abort, request, redirect
-from web3 import Web3
 from blockchain.handler import mint_tokens
-
+from solana.publickey import PublicKey
 
 def allow_only_example(func):
     @wraps(func)
@@ -20,9 +19,10 @@ class Wallet(Resource):
     @marshal_with(WalletSchema())
     def get(self, address):
         try:
-            address = Web3.toChecksumAddress(address)
-        except Exception:
-            abort(400, 'Invalid address')
+            if not PublicKey._is_on_curve(bytes(PublicKey(address))):
+                abort(400, 'address is noy user owned')
+        except:
+                abort(400, 'invalid solana address')
         # check if wallet exists and create if not
         wallet = models.Wallet.query.filter_by(address=address).first()
         if wallet is None:
