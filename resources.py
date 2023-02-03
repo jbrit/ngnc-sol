@@ -19,7 +19,7 @@ class Wallet(Resource):
     @marshal_with(WalletSchema())
     def get(self, address):
         try:
-            if not Pubkey.is_on_curve(bytes(Pubkey.from_string(address))):
+            if not Pubkey.from_string(address).is_on_curve():
                 abort(400, 'address is noy user owned')
         except:
                 abort(400, 'invalid solana address')
