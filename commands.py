@@ -3,7 +3,7 @@ import click
 import json
 import requests
 
-from blockchain.handler import create_mint
+from blockchain.handler import create_mint, mint_tokens
 
 from flask import Blueprint
 
@@ -60,3 +60,12 @@ def get_balance(pubkey: str):
 @command_blueprint.cli.command('create_token')
 def create_token():
     create_mint()
+
+
+@command_blueprint.cli.command('airdrop_ngnc')
+@click.argument('pubkey')
+@click.argument('amount', type=int)
+def airdrop_token(pubkey, amount):
+    signature = mint_tokens(pubkey, amount)
+    print (f"{amount/100} NGNC sent to {pubkey}")
+    print (f"https://solscan.io/tx/{signature}?cluster=devnet")
