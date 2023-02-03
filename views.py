@@ -15,3 +15,9 @@ api.add_resource(RedirectSwagger, "/")
 
 
 docs = FlaskApiSpec()
+
+# API docs -- start
+docs.register(Wallet, blueprint="api")
+docs.register(Webhook, blueprint="api")
+docs.register(RedirectSwagger, blueprint="api")
+# API docs -- end
